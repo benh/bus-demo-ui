@@ -1,0 +1,44 @@
+{
+  "id": "/dev/bus-demo/ui",
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "mesosphere/akka-server:0.2.1-SNAPSHOT",
+      "forcePullImage": true
+    }
+  },
+  "acceptedResourceRoles": [
+    "slave_public"
+  ],
+  "env": {
+      "CASSANDRA_CONNECT": "node-0-server.cassandra.autoip.dcos.thisdcos.directory:9042",
+      "KAFKA_CONNECT": "broker.kafka.l4lb.thisdcos.directory:9092"
+  },
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false,
+      "port": 8000
+    }
+  ],
+  "cpus": 0.1,
+  "mem": 2048.0,
+   "portDefinitions": [
+    {
+      "port": 8000,
+      "protocol": "tcp",
+      "name": "web"
+    },
+    {
+      "port": 8001,
+      "protocol": "tcp",
+      "name": "web2"
+    }
+  ], 
+ "requirePorts" : true
+}
